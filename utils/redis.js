@@ -3,24 +3,33 @@ import { createClient } from 'redis';
 
 class RedisClient {
     constructor() {
-        this.client = createClient()
-        .on('error', err => console.log('Connexion failed', err))
-        .connect();
+        this.client = createClient();
+        this.client.on('error', err => console.log('Connexion error', err));
+        this.connexion = false;
+        this.connectToRedis();
+    }
+
+    async connectToRedis() {
+        try {
+            await this.client.connect();
+            this.connexion = true;
+            console.log('Connexion Successful');
+        } catch (err) {
+            console.log('First connexion attemps to redis failed', err);
+        }
     }
 
     isAlive() {
-        if (this.client != null) {
-            return true;
-        }
-        return false;
+       return this.connexion;
     }
 
     async get(key) {
+        console.log('Hello get');
         return await this.client.get(key);
     }
 
     async set(key, value) {
-        return await this.client.set(key, value);
+        await this.client.set(key, value);
     }
 
     async del(key) {
