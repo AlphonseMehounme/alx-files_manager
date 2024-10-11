@@ -2,9 +2,10 @@ import { createClient } from 'redis';
 
 class RedisClient {
   constructor() {
+    this.connexion = false;
     this.client = createClient();
     this.client.on('error', (err) => console.log('Connexion error', err));
-    this.connexion = false;
+    this.connexion = true;
     this.connectToRedis();
   }
 
@@ -12,7 +13,6 @@ class RedisClient {
     try {
       await this.client.connect();
       this.connexion = true;
-      console.log('Connexion Successful');
     } catch (err) {
       console.log('First connexion attemps to redis failed', err);
     }
@@ -23,12 +23,11 @@ class RedisClient {
   }
 
   async get(key) {
-    console.log('Hello get');
     return this.client.get(key);
   }
 
-  async set(key, value) {
-    await this.client.set(key, value);
+  async set(key, value, duration) {
+    await this.client.set(key, value, { EX: duration });
   }
 
   async del(key) {
@@ -36,4 +35,5 @@ class RedisClient {
   }
 }
 
-module.exports = new RedisClient();
+const redisClient = new RedisClient();
+module.exports = redisClient;
