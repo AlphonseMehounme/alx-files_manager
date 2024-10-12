@@ -25,6 +25,22 @@ class DBClient {
     return this.connexion;
   }
 
+  async userFound(email) {
+    const users = this.db.collection('users');
+    const user = await users.countDocuments({'email':email});
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async addUser(email, password) {
+    const users = this.db.collection('users');
+    const user = await users.insertOne({'email':email, 'password':password});
+    return user.ops[0];
+  }
+
   async nbUsers() {
     const users = this.db.collection('users');
     const nbUsers = await users.countDocuments({});
