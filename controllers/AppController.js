@@ -7,7 +7,7 @@ const getStatus = ((req, res) => {
   }
 });
 
-const getStats = ( async (req, res) => {
+const getStats = (async (req, res) => {
   const nbUsers = await dbClient.nbUsers();
   const nbFiles = await dbClient.nbFiles();
   res.status(200).send({ users: nbUsers, files: nbFiles });
