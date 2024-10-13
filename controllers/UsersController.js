@@ -14,7 +14,7 @@ const postNew = (async (req, res) => {
     } else {
       const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
       const user = await dbClient.addUser(email, hashedPassword);
-      const userInfo = { user_id: user._id, user_email: user.email };
+      const userInfo = { id: user._id, email: user.email };
       return res.status(201).send(userInfo);
     }
   }
