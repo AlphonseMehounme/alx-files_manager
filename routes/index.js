@@ -9,6 +9,7 @@ const {
 
 const {
   postNew,
+  getMe,
 } = require('../controllers/UsersController');
 
 router.get('/status', getStatus);
@@ -16,5 +17,7 @@ router.get('/status', getStatus);
 router.get('/stats', getStats);
 
 router.post('/users', postNew);
+
+router.get('/users/me', getMe);
 
 module.exports = router;

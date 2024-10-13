@@ -20,4 +20,8 @@ const postNew = (async (req, res) => {
   }
 });
 
-module.exports = { postNew };
+const getMe = (req, res) => {
+    res.status(200).send('I am me');
+}
+
+module.exports = { postNew, getMe };
