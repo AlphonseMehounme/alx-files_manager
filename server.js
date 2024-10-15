@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 5200;
 
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Server yo listening on port ${port}`);
 });
 
 app.use(express.json());

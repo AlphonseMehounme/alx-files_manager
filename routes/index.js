@@ -1,5 +1,5 @@
 const express = require('express');
-
+import UsersController from '../controllers/UsersController';
 const router = express.Router();
 
 const {
@@ -7,10 +7,10 @@ const {
   getStats,
 } = require('../controllers/AppController');
 
-const {
+/*const {
   postNew,
   getMe,
-} = require('../controllers/UsersController');
+} = require('../controllers/UsersController');*/
 
 const {
   getConnect,
@@ -21,9 +21,13 @@ router.get('/status', getStatus);
 
 router.get('/stats', getStats);
 
-router.post('/users', postNew);
+router.post('/users', (req, res) => {
+  UsersController.postNew(req, res);
+});
 
-router.get('/users/me', getMe);
+router.get('/users/me', (req, res) => {
+  UsersController.getMe(req, res);
+});
 
 router.get('/connect', getConnect);
 

@@ -1,7 +1,9 @@
 const crypto = require('crypto');
 const dbClient = require('../utils/db');
 
-const postNew = (async (req, res) => {
+class UsersController {
+
+  static async postNew (req, res) {
   const { email, password } = req.body;
   if (!email) {
     return res.status(400).send({ error: 'Missing email' });  
@@ -13,15 +15,15 @@ const postNew = (async (req, res) => {
   if (userfound) {
     return res.status(400).send({ error: 'Already exist' });
   }
-/*
-  const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-  const user = await dbClient.addUser(email, hashedPassword);
-  const userInfo = { id: user._id, email: user.email };*/
+  // const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
+  // const user = await dbClient.addUser(email, hashedPassword);
+  // const userInfo = { id: user._id, email: user.email };*/
   return res.status(201).send('I am the one');
-});
+  }
 
-const getMe = (req, res) => {
+  static async getMe (req, res) {
     res.status(200).send('I am me');
+  }
 }
 
-module.exports = { postNew, getMe };
+export default UsersController;
