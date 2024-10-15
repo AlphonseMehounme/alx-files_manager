@@ -7,4 +7,4 @@ const getDisconnect = (req, res) => {
     res.status(200).send('Get disconnect');
 }
 
-module.exports = { getConnect };
+module.exports = { getConnect, getDisconnect };
