@@ -25,8 +25,8 @@ router.post('/users', postNew);
 
 router.get('/users/me', getMe);
 
-// router.get('/connect', getConnect);
+router.get('/connect', getConnect);
 
-// router.get('/disconnect', getDisconnect);
+router.get('/disconnect', getDisconnect);
 
 module.exports = router;
