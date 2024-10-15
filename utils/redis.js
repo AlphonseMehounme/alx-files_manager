@@ -1,10 +1,12 @@
-import { createClient } from 'redis';
+import redis from 'redis';
+import { promisify } from 'util';
 
 class RedisClient {
   constructor() {
+    this.client = redis.createClient();
+    this.newGet = promisify(this.client.get).bind(this.client);
     this.connexion = false;
-    this.client = createClient();
-    this.client.on('error', (err) => console.log('Connexion error', err));
+    this.client.on('error', (err) => console.log('Connexion error', err.message));
     this.client.on('connect', () => {
       this.client.connexion = true;
     });
@@ -20,11 +22,12 @@ class RedisClient {
   }*/
 
   isAlive() {
-    return this.connected;
+    return this.connexion;
   }
 
   async get(key) {
-    return this.client.get(key);
+    const value = this.newGet(key);
+    return value;
   }
 
   async set(key, value, duration) {
