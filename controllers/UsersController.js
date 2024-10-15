@@ -2,22 +2,22 @@ const crypto = require('crypto');
 const dbClient = require('../utils/db');
 
 const postNew = (async (req, res) => {
-  if (!req.body.email) {
-    //const er = new Error('Missing email');
+  const { email, password } = req.body;
+  if (!email) {
     return res.status(400).send({ error: 'Missing email' });  
   }
-  if (!req.body.password) {
+  if (!password) {
     return res.status(400).send({ error: 'Missing password' });
   }
-  const { email, password } = req.body;
   const userfound = await dbClient.userFound(email);
   if (userfound) {
     return res.status(400).send({ error: 'Already exist' });
-  } 
+  }
+/*
   const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
   const user = await dbClient.addUser(email, hashedPassword);
-  const userInfo = { id: user._id, email: user.email };
-  return res.status(201).send(userInfo);
+  const userInfo = { id: user._id, email: user.email };*/
+  return res.status(201).send('I am the one');
 });
 
 const getMe = (req, res) => {
