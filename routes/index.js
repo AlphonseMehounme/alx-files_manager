@@ -1,5 +1,6 @@
 const express = require('express');
 import UsersController from '../controllers/UsersController';
+import AuthController from '../controllers/AuthController';
 const router = express.Router();
 
 const {
@@ -12,10 +13,10 @@ const {
   getMe,
 } = require('../controllers/UsersController');*/
 
-const {
+/*const {
   getConnect,
   getDisconnect,
-} = require('../controllers/AuthController');
+} = require('../controllers/AuthController');*/
 
 router.get('/status', getStatus);
 
@@ -29,8 +30,12 @@ router.get('/users/me', (req, res) => {
   UsersController.getMe(req, res);
 });
 
-router.get('/connect', getConnect);
+router.get('/connect', (req, res) => {
+  AuthController.getConnect(req, res);
+});
 
-router.get('/disconnect', getDisconnect);
+router.get('/disconnect', (req, res) => {
+  AuthController.getDisconnect(req, res);
+});
 
 module.exports = router;
