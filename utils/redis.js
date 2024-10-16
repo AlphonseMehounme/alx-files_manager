@@ -3,14 +3,14 @@ import { promisify } from 'util';
 
 class RedisClient {
   constructor() {
-    this.connexion = false;
+    // this.connexion = false;
     this.client = redis.createClient();
     this.newGet = promisify(this.client.get).bind(this.client);
     this.client.on('error', (err) => console.log('Connexion error', err.message));
     this.client.on('connect', () => {
-      // this.connexion = true;
+      console.log('Redis connected...');
     });
-    this.connexion = true;
+    // this.connexion = true;
   }
 
   isAlive() {
