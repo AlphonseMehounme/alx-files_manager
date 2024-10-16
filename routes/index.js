@@ -1,23 +1,9 @@
-const express = require('express');
+import express from 'express';
 import UsersController from '../controllers/UsersController';
 import AuthController from '../controllers/AuthController';
 import AppController from '../controllers/AppController';
+
 const router = express.Router();
-
-//const {
-//  getStatus,
-//  getStats,
-//} = {0, 0}; //require('../controllers/AppController');
-
-/*const {
-  postNew,
-  getMe,
-} = require('../controllers/UsersController');*/
-
-/*const {
-  getConnect,
-  getDisconnect,
-} = require('../controllers/AuthController');*/
 
 router.get('/status', (req, res) => {
   AppController.getStatus(req, res);
