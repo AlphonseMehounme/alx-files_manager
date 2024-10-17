@@ -1,7 +1,10 @@
+const { v4: uuidv4 } = require('uuid');
 import redisClient from '../utils/redis';
+import dbClient from '../utils/db';
+import sha1 from 'sha1';
 
 class AuthController {
-  static getConnect(req, res) {
+  static async getConnect(req, res) {
     const authHeader = req.header('Authorization') || '';
     const credentials = authHeader.split(' ')[1];
     if (!credentials) {
@@ -12,7 +15,17 @@ class AuthController {
     if (!email || !password) {
       return res.status(401).send({ error: 'Unauthorized' });
     }
-    return res.status(200).send('Get connect');
+    const hashedPassword = sha1(password);
+    const users = dbClient.db.collection('users');
+    const user = await users.findOne({ email, password: hashedPassword });
+    if (!user) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
+    const token = uuidv4();
+    const key = `auth_${token}`;
+    const duration = 24 * 3600;
+    await redisClient.set(key, user._id.toString(), duration);
+    return res.status(200).send({ token });
   }
 
   static async getDisconnect(req, res) {
