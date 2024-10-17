@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 const crypto = require('crypto');
 const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
@@ -29,7 +31,14 @@ class UsersController {
     }
     userObj.key = `auth_${xToken}`;
     userObj.userId = await redisClient.get(userObj.key);
-    res.status(200).send('I am me');
+    const users = dbClient.db.collection('users');
+    const user = users.findOne({ _id: ObjectId(userObj.userId) });
+    if (!user) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
+    const userData = { id: user._id, email: user.email };
+    console.log(userData);
+    return res.status(200).send(userData);
   }
 }
 
